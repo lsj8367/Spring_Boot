@@ -1,0 +1,24 @@
+package com.example.study.controller;
+
+import org.springframework.web.bind.annotation.*;
+
+@RestController //컨트롤러라는것을 명시
+@RequestMapping("/api") // localhost:8080/api 까지 연결
+public class GetController {
+    @RequestMapping(method = RequestMethod.GET, path = "/getMethod") //localhost:8080/api/getMethod 주소 호출 받음
+    public String getRequest(){
+
+        return "Hi getMethod"; //웹에 출력해줌
+    }
+
+    @GetMapping("/getParameter") // get방식 처리 메소드 지정 X 주소만  설정해주면 된다.   localhost:8080/api/getParameter?id=1234&password=abcd 주소로 요청
+    public String getParameter(@RequestParam String id, @RequestParam(name = "password") String pwd){ // 제대로 매핑시키기 위해서 name값을 할당
+        String password = "bbbb"; //로컬변수로 password를 사용해야 할 경우
+
+        System.out.println("id " + id);
+        System.out.println("password " + password);
+
+        return id+password;
+    }
+}
+
