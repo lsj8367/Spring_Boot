@@ -19,6 +19,9 @@ public class PostController {
         return searchParam;
     }
 
+
+
+    //업데이트 기능을 사용할때 두개의 메소드 사용
     @PutMapping("/putMethod")
     public void put(){
 
