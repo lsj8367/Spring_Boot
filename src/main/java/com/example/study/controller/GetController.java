@@ -1,10 +1,11 @@
 package com.example.study.controller;
 
+import com.example.study.model.SearchParam;
 import org.springframework.web.bind.annotation.*;
 
 @RestController //컨트롤러라는것을 명시
 @RequestMapping("/api") // localhost:8080/api 까지 연결
-public class GetController {
+public class GetController { //GET 메소드 주소에대한 캐시가 이루어 지므로, 정보를 얻을때 사용한다.
     @RequestMapping(method = RequestMethod.GET, path = "/getMethod") //localhost:8080/api/getMethod 주소 호출 받음
     public String getRequest(){
 
@@ -19,6 +20,18 @@ public class GetController {
         System.out.println("password " + password);
 
         return id+password;
+    }
+
+    //localhost:8080/api/getMultiParameter?account=abcd&email=study@gmail.com&page=10
+    @GetMapping("/getMultiParameter")
+    public SearchParam getMultiParameter(SearchParam searchParam){
+        System.out.println(searchParam.getAccount());
+        System.out.println(searchParam.getEmail());
+        System.out.println(searchParam.getPage());
+
+        // {"account" : "", "email" : "", "page" : 0} json형식
+
+        return searchParam; //json형식으로 내보냄 jackson라이브러리
     }
 }
 
