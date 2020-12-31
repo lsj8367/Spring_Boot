@@ -3,7 +3,7 @@ package com.example.study.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+@Data //롬복 라이브러리로 getter setter 생성자 다 만들어줌.
 @AllArgsConstructor // 모든 매개변수 를 가지는 생성자 추가
 public class SearchParam {
     private String account;
