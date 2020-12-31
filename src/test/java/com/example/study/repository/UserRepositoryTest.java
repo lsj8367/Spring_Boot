@@ -38,7 +38,10 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Transactional
     public void read(){ //@RequestParam Long id
         //userRepository.findAll(); // select문으로 테이블 전체
-        Optional<User> user = userRepository.findById(7L); //long type이라 2L넣음 아이디타입 2번째
+
+        //select * from user where id = ?
+        //Optional<User> user = userRepository.findById(7L); //long type이라 2L넣음 아이디타입 2번째
+        Optional<User> user = userRepository.findByAccount("TestUser03");
 
         user.ifPresent(selectUser ->{ //유저에 맞는 아이디가 있으면 결과를 받겠다.
 //            System.out.println("user : " + selectUser);

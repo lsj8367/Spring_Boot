@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data //getter setter 생성 메소드
-@AllArgsConstructor // 생성자 생성
-@NoArgsConstructor
-@Entity // == table\
+@AllArgsConstructor // 생성자 오버로딩 된것들 전부 생성해줌.
+@NoArgsConstructor // 기본생성자 생성
+@Entity // == table
 //@Table(name = "user") //클래스명과 테이블이름이 같으면 이렇게 안해줘도됨
 public class User { //클래스의 이름이 DB테이블과 동일하게
 //    1)직접 할당 : 기본 키를 애플리케이션에서 직접 엔티티클래스의 @Id 필드에 set해준다.

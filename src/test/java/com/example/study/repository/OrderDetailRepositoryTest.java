@@ -33,7 +33,7 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
     public void read(){
         Long id = 1L;
 
-        Optional<OrderDetail> orderDetail = orderDetailRepository.findById(1L);
+        Optional<OrderDetail> orderDetail = orderDetailRepository.findById(id);
 
         Assertions.assertTrue(orderDetail.isPresent());
 
