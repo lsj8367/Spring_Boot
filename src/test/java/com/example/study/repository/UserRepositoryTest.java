@@ -1,13 +1,12 @@
 package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
+import com.example.study.model.entity.Item;
 import com.example.study.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
@@ -36,13 +35,21 @@ public class UserRepositoryTest extends StudyApplicationTests {
     }
 
     @Test
-    public void read(@RequestParam Long id){
+    @Transactional
+    public void read(){ //@RequestParam Long id
         //userRepository.findAll(); // select문으로 테이블 전체
-        Optional<User> user = userRepository.findById(2L); //long type이라 2L넣음 아이디타입 2번째
+        Optional<User> user = userRepository.findById(7L); //long type이라 2L넣음 아이디타입 2번째
 
         user.ifPresent(selectUser ->{ //유저에 맞는 아이디가 있으면 결과를 받겠다.
-            System.out.println("user : " + selectUser);
-            System.out.println("email : " + selectUser.getEmail()); // 해당유저의 이메일
+//            System.out.println("user : " + selectUser);
+//            System.out.println("email : " + selectUser.getEmail()); // 해당유저의 이메일
+            selectUser.getOrderDetailList().stream().forEach(detail -> {
+                Item item = detail.getItem();
+                System.out.println(item); //7번 이용자가 1번 아이템을 가지고있는것 확인
+
+            });
+
+
         });
     }
 

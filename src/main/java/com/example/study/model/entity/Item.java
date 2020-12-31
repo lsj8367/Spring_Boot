@@ -4,10 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,5 +22,9 @@ public class Item {
     private Integer price;
 
     private String content;
+
+    //1 : N 아이템 입장에서 본인은 1 주문은 n이기 때문
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "item")
+    private List<OrderDetail> orderDetailList;
 
 }

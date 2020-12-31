@@ -23,7 +23,7 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
         //orderDetail.setUserId(7L); //index id 7번의 사람
 
         //어떤 상품
-        orderDetail.setItemId(1L); //item 데이터의 1번
+        //orderDetail.setItemId(1L); //item 데이터의 1번
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
         Assertions.assertNotNull(newOrderDetail);
