@@ -2,8 +2,12 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.User;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
@@ -59,9 +63,29 @@ public class UserRepositoryTest extends StudyApplicationTests {
         });
     }
 
-    public void delete(){
+    //@DeleteMapping("/api/user")
+    @Test
+    @Transactional // 트랜잭션처리 롤백처리해줌
+    public void delete(){ //@RequestParam Long id
+        Optional<User> user = userRepository.findById(3L);
+
+        Assertions.assertTrue(user.isPresent()); //무조건적으로 있어야한다. 없으면 에러문구 출력.
+
+
+        user.ifPresent(selectUser -> { //있는데이터를 삭제
+            userRepository.delete(selectUser); //db삭제
+        });
+
+        Optional<User> deleteUser = userRepository.findById(3L); //다시 db조회
+
+//        if(deleteUser.isPresent()){
+//            System.out.println("데이터 존재" + deleteUser.get());
+//        }else{
+//            System.out.println("데이터 삭제됨.");
+//        }
+
+        Assertions.assertFalse(deleteUser.isPresent()); //반드시 false여야한다.
 
     }
-
 }
 
