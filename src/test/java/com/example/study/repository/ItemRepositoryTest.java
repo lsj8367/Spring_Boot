@@ -29,7 +29,7 @@ public class ItemRepositoryTest extends StudyApplicationTests {
         item.setPrice(900000);
         item.setBrandName("삼성");
         //외래키가 연결되어있지 않으므로 에러가 발생한다. partner_id
-        item.setPartnerId(1L);
+        //item.setPartnerId(1L); // Long -> Partner
 
         item.setRegisteredAt(LocalDateTime.now());
         item.setCreatedAt(LocalDateTime.now());

@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity //order_detail 테이블
-@ToString(exclude = {"orderGroup"}) //연관관계로 user, item 클래스를 묶었을때 안해주면 stackoverflow 발생
+@ToString(exclude = {"item", "orderGroup"}) //연관관계로 user, item 클래스를 묶었을때 안해주면 stackoverflow 발생
 public class OrderDetail {
 
     @Id
@@ -36,9 +36,15 @@ public class OrderDetail {
 
     private String updatedBy;
 
+    //Order Detail N : 1 Item
     //private Long itemId;
-    //private Long orderGroupId;
+    @ManyToOne
+    private Item item;
 
+    //OrderDetail N : 1 OrderGroup
+    //private Long orderGroupId;
+    @ManyToOne
+    private OrderGroup orderGroup; // 변수이름은 MappedBy와 일치해야함
 
     /*
     //자기 자신 테이블의 위치에서 N인지 1인지에 따라 어노테이션 참조
@@ -52,8 +58,6 @@ public class OrderDetail {
     private Item item; // 변수이름이 Item mapped와 동일해야함
      */
 
-    //OrderDetail N : 1 OrderGroup
-    @ManyToOne
-    private OrderGroup orderGroup; // 변수이름은 MappedBy와 일치해야함
+
 
 }
