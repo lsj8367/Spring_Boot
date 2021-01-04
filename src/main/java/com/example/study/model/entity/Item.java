@@ -32,7 +32,7 @@ public class Item {
 
     private LocalDateTime registeredAt;
 
-    private LocalDateTime unregitsteredAt;
+    private LocalDateTime unregisteredAt;
 
     private LocalDateTime createdAt;
 
@@ -42,6 +42,7 @@ public class Item {
 
     private String updatedBy;
 
+    private Long partnerId;
 
 
     //1 : N 아이템 입장에서 본인은 1 주문은 n이기 때문

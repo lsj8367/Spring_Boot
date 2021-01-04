@@ -33,8 +33,29 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
         User newUser = userRepository.save(user); //객체를 db에 저장
         System.out.println("newUser : " + newUser);
-
          */
+        String account = "Test01";
+        String password = "Test01";
+        String status = "Registered";
+        String email = "Test01@gmail.com";
+        String phoneNumber = "010-1111-2222";
+        LocalDateTime registeredAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.now();
+        String createdBy = "AdminServer";
+
+        User user = new User();
+        user.setAccount(account);
+        user.setPassword(password);
+        user.setStatus(status);
+        user.setEmail(email);
+        user.setPhoneNumber(phoneNumber);
+        user.setRegisteredAt(registeredAt);
+        user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);
+
+        User newUser = userRepository.save(user);
+        Assertions.assertNotNull(newUser);
+
     }
 
     @Test
@@ -55,8 +76,12 @@ public class UserRepositoryTest extends StudyApplicationTests {
                 System.out.println(item); //7번 이용자가 1번 아이템을 가지고있는것 확인
             });
         });
-
          */
+        User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+        Assertions.assertNotNull(user);
+
+
+
     }
 
     @Test

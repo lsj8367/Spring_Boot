@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -17,13 +18,18 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
     @Test
     public void create(){
         OrderDetail orderDetail = new OrderDetail();
-        orderDetail.setOrderAt(LocalDateTime.now());
 
-        //어떤 사람
-        //orderDetail.setUserId(7L); //index id 7번의 사람
+        orderDetail.setStatus("Waiting");
+        orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2)); //현재일로부터 2일 추가
+        orderDetail.setQuantity(1); //수량
+        orderDetail.setTotalPrice(BigDecimal.valueOf(900000)); //총가격
+        orderDetail.setCreatedAt(LocalDateTime.now());
+        orderDetail.setCreatedBy("AdminServer");
 
+        //어떤 장바구니
+        orderDetail.setOrderGroupId(1L);
         //어떤 상품
-        //orderDetail.setItemId(1L); //item 데이터의 1번
+        orderDetail.setItemId(1L); //어떠한 상품
 
         OrderDetail newOrderDetail = orderDetailRepository.save(orderDetail);
         Assertions.assertNotNull(newOrderDetail);

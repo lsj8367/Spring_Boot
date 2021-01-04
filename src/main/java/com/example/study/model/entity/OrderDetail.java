@@ -36,7 +36,8 @@ public class OrderDetail {
 
     private String updatedBy;
 
-    private LocalDateTime orderAt;
+    private Long itemId;
+    private Long orderGroupId;
 
 
     /*
