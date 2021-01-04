@@ -1,6 +1,7 @@
 package com.example.study.controller;
 
 import com.example.study.model.SearchParam;
+import com.example.study.model.network.Header;
 import org.springframework.web.bind.annotation.*;
 
 @RestController //컨트롤러라는것을 명시
@@ -33,5 +34,15 @@ public class GetController { //GET 메소드 주소에대한 캐시가 이루어
 
         return searchParam; //json형식으로 내보냄 jackson라이브러리
     }
+
+    @GetMapping("/header")
+    public Header getHeader(){
+
+        //{"resultCode":"OK", "description": "OK"}
+        return Header.builder().resultCode("OK").description("OK").build();
+    }
+
+
+
 }
 
