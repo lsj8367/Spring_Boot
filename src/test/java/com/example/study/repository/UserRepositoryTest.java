@@ -44,6 +44,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
 //        String createdBy = "AdminServer";
 
         User user = new User();
+
         user.setAccount(account);
         user.setPassword(password);
         user.setStatus(status);
@@ -52,6 +53,15 @@ public class UserRepositoryTest extends StudyApplicationTests {
         user.setRegisteredAt(registeredAt);
 //        user.setCreatedAt(createdAt);
 //        user.setCreatedBy(createdBy);
+
+        User u = User.builder()
+                .account(account)
+                .password(password)
+                .status(status)
+                .email(email)
+                .build(); // 생성하는것마다 하나씩 넣어서 @Builder 객체를 부름
+
+
 
         User newUser = userRepository.save(user);
         Assertions.assertNotNull(newUser);
@@ -78,6 +88,20 @@ public class UserRepositoryTest extends StudyApplicationTests {
         });
          */
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222"); //Optional 처리가 더 좋음.
+
+        //추가할때 기존방법
+//        user.setEmail();
+//        user.setStatus();
+
+        //accessors 사용시
+        //아래 두가지 방법 사용가능
+//        user
+//                .setEmail("")
+//                .setPhoneNumber("")
+//                .setStatus("");
+
+//        User u = new User().setAccount().setEmail().setPassword();
+
 
         if(user != null){
             user.getOrderGroupList().stream().forEach(orderGroup -> {

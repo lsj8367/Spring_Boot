@@ -1,9 +1,7 @@
 package com.example.study.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -21,6 +19,8 @@ import java.util.List;
 //@Table(name = "user") //클래스명과 테이블이름이 같으면 이렇게 안해줘도됨
 @ToString(exclude = {"orderGroupList"}) // 롬복이 ordergroup은 제외함
 @EntityListeners(AuditingEntityListener.class) //해당 entity리스너 는 AuditingEntityListener를 쓰겠다는것을 가리킴
+@Builder // build객체로 다른곳에서 생성자 매번 생성하지않고 하나씩 추가하는 기능
+@Accessors(chain = true) //update할때도 .set 으로 다 연결해줌
 public class User { //클래스의 이름이 DB테이블과 동일하게
 //    1)직접 할당 : 기본 키를 애플리케이션에서 직접 엔티티클래스의 @Id 필드에 set해준다.
 //    2)자동 생성 : 대리 키 사용 방식
