@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class OrderGroupRepositoryTest extends StudyApplicationTests {
     @Autowired
-    OrderGroupRepository orderGroupRepository;
+    private OrderGroupRepository orderGroupRepository;
 
     @Test
     public void create(){
