@@ -19,6 +19,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
     @Test //테스트용
     public void create(){
+        /*
         // String sql = "insert into user (%s, %s, %d) values (account, email, age);
         User user = new User();
         //user.setId(); //자동으로 올라가니까 필요 X
@@ -32,11 +33,14 @@ public class UserRepositoryTest extends StudyApplicationTests {
 
         User newUser = userRepository.save(user); //객체를 db에 저장
         System.out.println("newUser : " + newUser);
+
+         */
     }
 
     @Test
     @Transactional
     public void read(){ //@RequestParam Long id
+        /*
         //userRepository.findAll(); // select문으로 테이블 전체
 
         //select * from user where id = ?
@@ -49,11 +53,10 @@ public class UserRepositoryTest extends StudyApplicationTests {
             selectUser.getOrderDetailList().stream().forEach(detail -> {
                 Item item = detail.getItem();
                 System.out.println(item); //7번 이용자가 1번 아이템을 가지고있는것 확인
-
             });
-
-
         });
+
+         */
     }
 
     @Test
