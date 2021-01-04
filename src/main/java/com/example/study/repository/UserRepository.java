@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> { // 제네릭
 
      */
 
-    User findFirstByPhoneNumberOrderByIdDesc(String phoneNumber);
+    User findFirstByPhoneNumberOrderByIdDesc(String phoneNumber); //Optional처리 해주는게 정석
     // 동일한 번호중 맨 첫번째것 내림차순 정렬
 
 }
