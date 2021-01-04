@@ -1,0 +1,27 @@
+package com.example.study.model.network.request;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserApiRequest {
+
+    private Long id;
+
+    private String account;
+
+    private String password;
+
+    private String status;
+
+    private String email;
+
+    private String phoneNumber;
+
+    //이 다음은 서버에서 생성해주기 때문에 생략
+}

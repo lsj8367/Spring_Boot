@@ -2,34 +2,47 @@ package com.example.study.controller.api;
 
 import com.example.study.ifs.CRUDInterface;
 import com.example.study.model.network.Header;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.study.model.network.request.UserApiRequest;
+import com.example.study.model.network.response.UserApiResponse;
+import com.example.study.service.UserApiLogicService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
+@Slf4j // simple logging
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController implements CRUDInterface {
+public class UserApiController implements CRUDInterface<UserApiRequest, UserApiResponse> {
+
+    @Autowired
+    private UserApiLogicService userApiLogicService;
 
     // C
     @Override
-    public Header create(){
-        return null;
+    @PostMapping("") // api/user
+    public Header<UserApiResponse> create(@RequestBody Header<UserApiRequest> request){
+        log.info("{}",request);
+        return userApiLogicService.create(request);
     }
 
     // R
     @Override
-    public Header read(Long id) {
+    @GetMapping("{id}") // api/user/{id}
+    public Header<UserApiResponse> read(@PathVariable(name = "id") Long id) { //getmapping 에 들어가는 값과 같게 바꿔줌
         return null;
     }
 
     // U
     @Override
-    public Header update() {
+    @PutMapping("") //api/user
+    public Header<UserApiResponse> update(@RequestBody Header<UserApiRequest> request) {
         return null;
     }
 
     // D
     @Override
-    public Header delete(Long id) {
+    @DeleteMapping("{id}") // api/user/{id}
+    public Header<UserApiResponse> delete(@PathVariable Long id) {
         return null;
     }
 
