@@ -26,9 +26,17 @@ public class User { //클래스의 이름이 DB테이블과 동일하게
     //@Column(name = "account") 칼럼명과 맞춰주기
     private String account;
 
+    private String password;
+
+    private String status;
+
     private String email;
 
     private String phoneNumber;
+
+    private LocalDateTime registeredAt;
+
+    private LocalDateTime unregisteredAt;
 
     private LocalDateTime createdAt;
 
@@ -39,6 +47,6 @@ public class User { //클래스의 이름이 DB테이블과 동일하게
     private String updatedBy;
 
     // 1 : N
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") // mapping은 Orderdetail의 user 변수와 같아야함.
-    private List<OrderDetail> orderDetailList; //Lombok Tostring 메소드가 list로 결합되면서 무한참조가 발생함.
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user") // mapping은 Orderdetail의 user 변수와 같아야함.
+//    private List<OrderDetail> orderDetailList; //Lombok Tostring 메소드가 list로 결합되면서 무한참조가 발생함.
 }

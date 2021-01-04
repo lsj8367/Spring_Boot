@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,11 +18,31 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String status;
+
     private String name;
+
+    private String title;
+
+    private String content;
 
     private Integer price;
 
-    private String content;
+    private String brandName;
+
+    private LocalDateTime registeredAt;
+
+    private LocalDateTime unregitsteredAt;
+
+    private LocalDateTime createdAt;
+
+    private String createdBy;
+
+    private LocalDateTime updatedAt;
+
+    private String updatedBy;
+
+
 
     //1 : N 아이템 입장에서 본인은 1 주문은 n이기 때문
     // LAZY = 지연로딩, EAGER = 즉시로딩
@@ -33,7 +54,7 @@ public class Item {
     // user_id = order_detail.user_id
     // where item.id = ?
     // EAGER = from item item0_ left outer join order_detail orderdetai1_ on item0_.id=orderdetai1_.item_id left outer join user user2_ on orderdetai1_.user_id=user2_.id where item0_.id=?
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
-    private List<OrderDetail> orderDetailList;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "item")
+//    private List<OrderDetail> orderDetailList;
 
 }
