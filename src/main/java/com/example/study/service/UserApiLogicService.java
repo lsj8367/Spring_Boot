@@ -104,7 +104,7 @@ public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserAp
     }
 
     private Header<UserApiResponse> response(User user){
-        // user 객체로 UserApiResponse로 바꿔주는 메소드
+        // user 객체를 UserApiResponse로 바꿔주는 메소드
 
         UserApiResponse userApiResponse = UserApiResponse.builder()
                 .id(user.getId())
