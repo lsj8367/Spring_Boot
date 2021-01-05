@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class OrderDetailApiLogicService implements CRUDInterface<OrderDetailApiRequest, OrderDetailApiResponse> {
@@ -45,12 +46,29 @@ public class OrderDetailApiLogicService implements CRUDInterface<OrderDetailApiR
 
     @Override
     public Header<OrderDetailApiResponse> read(Long id) {
-        return null;
+        return orderDetailRepository.findById(id)
+                .map(this::response)
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header<OrderDetailApiResponse> update(Header<OrderDetailApiRequest> request) {
-        return null;
+        OrderDetailApiRequest body = request.getData();
+
+        return orderDetailRepository.findById(body.getId())
+                .map(orderDetail -> {
+                    orderDetail
+                            .setStatus(body.getStatus())
+                            .setArrivalDate(body.getArrivalDate())
+                            .setQuantity(body.getQuantity())
+                            .setTotalPrice(body.getTotalPrice())
+                            .setItem(itemRepository.getOne(body.getItemId()))
+                            .setOrderGroup(orderGroupRepository.getOne(body.getOrderGroupId()));
+                            return orderDetail;
+                })
+                .map(o -> orderDetailRepository.save(o))
+                .map(this::response)
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
@@ -59,7 +77,6 @@ public class OrderDetailApiLogicService implements CRUDInterface<OrderDetailApiR
     }
 
     private Header<OrderDetailApiResponse> response(OrderDetail orderDetail){
-
         OrderDetailApiResponse body = OrderDetailApiResponse.builder()
                 .id(orderDetail.getId())
                 .status(orderDetail.getStatus())
