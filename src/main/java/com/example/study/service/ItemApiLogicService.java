@@ -78,8 +78,8 @@ public class ItemApiLogicService implements CRUDInterface<ItemApiRequest, ItemAp
 
         Optional<Item> optional = itemRepository.findById(id);
 
-        return optional.map(user ->{
-            itemRepository.delete(user);
+        return optional.map(item ->{
+            itemRepository.delete(item);
             return Header.OK();
         }).orElseGet(() -> Header.ERROR("데이터 없음"));
     }
