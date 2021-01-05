@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiRequest, AdminUserApiResponse> {
@@ -47,12 +48,35 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
 
     @Override
     public Header<AdminUserApiResponse> update(Header<AdminUserApiRequest> request) {
-        return null;
+
+        AdminUserApiRequest body = request.getData();
+
+        return adminUserRepository.findById(body.getId())
+                .map(entityAdmin ->{
+                    entityAdmin.setAccount(body.getAccount())
+                            .setPassword(body.getPassword())
+                            .setStatus(body.getStatus())
+                            .setRole(body.getRole())
+                            .setRegisteredAt(body.getRegisteredAt())
+                            .setUnregisteredAt(body.getUnregisteredAt());
+                    return entityAdmin;
+                })
+                .map(entity -> adminUserRepository.save(entity))
+                .map(updateAdminUser -> response(updateAdminUser))
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return null;
+
+        Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
+
+        return adminUserOptional
+                .map(adminUser -> {
+                    adminUserRepository.delete(adminUser);
+                    return Header.OK();
+                })
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     private Header<AdminUserApiResponse> response(AdminUser adminUser){
