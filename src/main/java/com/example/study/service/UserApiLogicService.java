@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service //서비스로 동작하게됨
 public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserApiResponse> {
@@ -44,12 +45,46 @@ public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserAp
 
     @Override
     public Header<UserApiResponse> read(Long id) {
-        return null;
+        // 1. id -> repository getOne, getById
+        //Optional<User> optional = userRepository.findById(id);
+
+        // 2. user -> userApiresponse return
+
+
+        return userRepository.findById(id)
+                .map(user ->response(user)) //있는 경우
+                .orElseGet(
+                        ()->Header.ERROR("데이터 없음")
+                        ); //없는 경우
+
     }
 
     @Override
     public Header<UserApiResponse> update(Header<UserApiRequest> request) {
-        return null;
+        //1. data
+        UserApiRequest userApiRequest = request.getData();
+
+        //2. id -> user
+        Optional<User> optional = userRepository.findById(userApiRequest.getId());
+
+        return optional.map(user -> {
+            //3. data -> update
+            // id
+            user.setAccount(userApiRequest.getAccount())
+                    .setPassword(userApiRequest.getPassword())
+                    .setStatus(userApiRequest.getStatus())
+                    .setPhoneNumber(userApiRequest.getPhoneNumber())
+                    .setEmail(userApiRequest.getEmail())
+                    .setRegisteredAt(userApiRequest.getRegisteredAt())
+                    .setUnregisteredAt(userApiRequest.getUnregisteredAt());
+            return user;
+        })
+        .map(user -> userRepository.save(user))             // update 갱신
+        .map(updateUser -> response(updateUser))            // userApiResponse 생성
+        .orElseGet(() -> Header.ERROR("데이터 없음"));
+
+
+        //4. userApiRequest
     }
 
     @Override
