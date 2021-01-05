@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,9 +29,9 @@ public class PartnerApiRequest {
 
     private String ceoName;
 
-    private String registeredAt;
+    private LocalDateTime registeredAt;
 
-    private String unregisteredAt;
+    private LocalDateTime unregisteredAt;
 
     private Long categoryId;
 
