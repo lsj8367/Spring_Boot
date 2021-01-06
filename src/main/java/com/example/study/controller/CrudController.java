@@ -24,7 +24,7 @@ public abstract class CrudController<Req, Res, Entity> implements CRUDInterface<
 
     //페이징처리
     @GetMapping("")
-    public Header<List<Res>> search(@PageableDefault(sort = "id", direction = Sort.Direction.DESC, size = 10) Pageable pageable){ //id순으로 10개씩 정렬
+    public Header<List<Res>> search(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, size = 10) Pageable pageable){ //id순으로 10개씩 정렬
         log.info("{}",pageable);
         return baseService.search(pageable);
     }

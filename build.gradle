@@ -16,7 +16,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
 	//https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api/2.2#gradle
 	compile group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
-
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile("org.springframework.boot:spring-boot-starter-jdbc")
 	compile('mysql:mysql-connector-java')
