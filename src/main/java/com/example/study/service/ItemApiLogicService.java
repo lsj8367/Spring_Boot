@@ -91,7 +91,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
         }).orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    private ItemApiResponse response(Item item){
+    public ItemApiResponse response(Item item){
         ItemApiResponse body = ItemApiResponse.builder()
                 .id(item.getId())
                 .status(item.getStatus())
