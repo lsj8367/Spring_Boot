@@ -36,7 +36,7 @@ public class User { //클래스의 이름이 DB테이블과 동일하게
 
     private String password;
 
-    private String status;
+    private String status;  //registered, unregistered, waiting
 
     private String email;
 
