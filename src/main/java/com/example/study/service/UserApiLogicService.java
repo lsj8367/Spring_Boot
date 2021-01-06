@@ -136,7 +136,7 @@ public class UserApiLogicService extends BaseService<UserApiRequest, UserApiResp
         Page<User> users = baseRepository.findAll(pageable);
 
         List<UserApiResponse> userApiResponseList = users.stream()
-                .map(user -> response(user))
+                .map(this::response)
                 .collect(Collectors.toList());
 
         //List<UserApiResponse>
