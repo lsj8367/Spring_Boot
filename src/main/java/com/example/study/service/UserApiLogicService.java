@@ -2,6 +2,7 @@ package com.example.study.service;
 
 import com.example.study.ifs.CRUDInterface;
 import com.example.study.model.entity.User;
+import com.example.study.model.enumclass.UserStatus;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
@@ -31,7 +32,7 @@ public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserAp
         User user = User.builder()
                 .account(userApiRequest.getAccount())
                 .password(userApiRequest.getPassword())
-                .status("REGISTERED")
+                .status(UserStatus.REGISTERED)
                 .phoneNumber(userApiRequest.getPhoneNumber())
                 .email(userApiRequest.getEmail())
                 .registeredAt(LocalDateTime.now())
@@ -52,7 +53,7 @@ public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserAp
 
 
         return userRepository.findById(id)
-                .map(user ->response(user)) //있는 경우
+                .map(this::response) //있는 경우
                 .orElseGet(
                         ()->Header.ERROR("데이터 없음")
                         ); //없는 경우
@@ -72,7 +73,7 @@ public class UserApiLogicService implements CRUDInterface<UserApiRequest, UserAp
             // id
             user.setAccount(userApiRequest.getAccount())
                     .setPassword(userApiRequest.getPassword())
-                    .setStatus(userApiRequest.getStatus())
+                    .setStatus(userApiRequest.getStatus()) // 오타가 있을수 있는 형태는 enum으로 저장해둔다.
                     .setPhoneNumber(userApiRequest.getPhoneNumber())
                     .setEmail(userApiRequest.getEmail())
                     .setRegisteredAt(userApiRequest.getRegisteredAt())

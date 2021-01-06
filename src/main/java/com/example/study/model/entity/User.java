@@ -1,5 +1,6 @@
 package com.example.study.model.entity;
 
+import com.example.study.model.enumclass.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -36,7 +37,8 @@ public class User { //클래스의 이름이 DB테이블과 동일하게
 
     private String password;
 
-    private String status;  //registered, unregistered, waiting
+    @Enumerated(EnumType.STRING) // enum 매핑
+    private UserStatus status;  //registered, unregistered, waiting
 
     private String email;
 
