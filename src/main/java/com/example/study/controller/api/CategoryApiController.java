@@ -15,12 +15,4 @@ import javax.annotation.PostConstruct;
 @RestController
 @RequestMapping("/api/category")
 public class CategoryApiController extends CrudController<CategoryApiRequest, CategoryApiResponse, Category> {
-
-//    @Autowired
-//    private CategoryApiLogicService categoryApiLogicService;
-//
-//    @PostConstruct
-//    public void init(){
-//        this.baseService = categoryApiLogicService;
-//    }
 }

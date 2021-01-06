@@ -15,12 +15,4 @@ import javax.annotation.PostConstruct;
 @RestController
 @RequestMapping("/api/partner")
 public class PartnerApiController extends CrudController<PartnerApiRequest, PartnerApiResponse, Partner> {
-
-//    @Autowired
-//    private PartnerApiLogicService partnerApiLogicService;
-//
-//    @PostConstruct
-//    public void init(){
-//        this.baseService = partnerApiLogicService;
-//    }
 }

@@ -15,12 +15,4 @@ import javax.annotation.PostConstruct;
 @RestController
 @RequestMapping("/api/adminUser")
 public class AdminUserApiController extends CrudController<AdminUserApiRequest, AdminUserApiResponse, AdminUser> {
-
-//    @Autowired
-//    private AdminUserApiLogicService adminUserApiLogicService;
-//
-//    @PostConstruct
-//    public void init(){
-//        this.baseService = adminUserApiLogicService;
-//    }
 }
