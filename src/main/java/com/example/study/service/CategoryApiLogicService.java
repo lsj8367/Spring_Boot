@@ -13,10 +13,10 @@ import java.util.Optional;
 import java.util.function.Function;
 
 @Service
-public class CategoryApiLogicService implements CRUDInterface<CategoryApiRequest, CategoryApiResponse> {
+public class CategoryApiLogicService extends BaseService<CategoryApiRequest, CategoryApiResponse, Category> {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+//    @Autowired
+//    private CategoryRepository categoryRepository;
 
     @Override
     public Header<CategoryApiResponse> create(Header<CategoryApiRequest> request) {
@@ -28,7 +28,7 @@ public class CategoryApiLogicService implements CRUDInterface<CategoryApiRequest
                 .title(body.getTitle())
                 .build();
 
-        Category newCategory = categoryRepository.save(category);
+        Category newCategory = baseRepository.save(category);
 
 
         return response(newCategory);
@@ -37,7 +37,7 @@ public class CategoryApiLogicService implements CRUDInterface<CategoryApiRequest
     @Override
     public Header<CategoryApiResponse> read(Long id) {
 
-        return categoryRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(this::response)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -46,13 +46,13 @@ public class CategoryApiLogicService implements CRUDInterface<CategoryApiRequest
     public Header<CategoryApiResponse> update(Header<CategoryApiRequest> request) {
 
         CategoryApiRequest body = request.getData();
-        return categoryRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(category -> {
                     category.setType(body.getType())
                             .setTitle(body.getTitle());
                             return category;
                 })
-                .map(newCategory -> categoryRepository.save(newCategory))
+                .map(newCategory -> baseRepository.save(newCategory))
                 .map(c -> response(c))
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -60,10 +60,10 @@ public class CategoryApiLogicService implements CRUDInterface<CategoryApiRequest
     @Override
     public Header delete(Long id) {
 
-        Optional<Category> optional = categoryRepository.findById(id);
+        Optional<Category> optional = baseRepository.findById(id);
 
         return optional.map(category -> {
-                    categoryRepository.delete(category);
+                    baseRepository.delete(category);
                     return Header.OK();
                 })
                 .orElseGet(() -> Header.ERROR("데이터 없음"));

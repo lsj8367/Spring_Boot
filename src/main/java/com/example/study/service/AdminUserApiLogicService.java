@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiRequest, AdminUserApiResponse> {
+public class AdminUserApiLogicService extends BaseService<AdminUserApiRequest, AdminUserApiResponse, AdminUser> {
 
-    @Autowired
-    private AdminUserRepository adminUserRepository;
+//    @Autowired
+//    private AdminUserRepository adminUserRepository;
 
     @Override
     public Header<AdminUserApiResponse> create(Header<AdminUserApiRequest> request) {
@@ -33,7 +33,7 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
                 .registeredAt(LocalDateTime.now())
                 .build();
 
-        AdminUser newAdminUser = adminUserRepository.save(adminUser);
+        AdminUser newAdminUser = baseRepository.save(adminUser);
 
         return response(newAdminUser);
     }
@@ -41,7 +41,7 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
     @Override
     public Header<AdminUserApiResponse> read(Long id) {
 
-        return adminUserRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(this::response)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -51,7 +51,7 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
 
         AdminUserApiRequest body = request.getData();
 
-        return adminUserRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(entityAdmin ->{
                     entityAdmin.setAccount(body.getAccount())
                             .setPassword(body.getPassword())
@@ -61,7 +61,7 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
                             .setUnregisteredAt(body.getUnregisteredAt());
                     return entityAdmin;
                 })
-                .map(entity -> adminUserRepository.save(entity))
+                .map(entity -> baseRepository.save(entity))
                 .map(updateAdminUser -> response(updateAdminUser))
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -69,11 +69,11 @@ public class AdminUserApiLogicService implements CRUDInterface<AdminUserApiReque
     @Override
     public Header delete(Long id) {
 
-        Optional<AdminUser> adminUserOptional = adminUserRepository.findById(id);
+        Optional<AdminUser> adminUserOptional = baseRepository.findById(id);
 
         return adminUserOptional
                 .map(adminUser -> {
-                    adminUserRepository.delete(adminUser);
+                    baseRepository.delete(adminUser);
                     return Header.OK();
                 })
                 .orElseGet(() -> Header.ERROR("데이터 없음"));

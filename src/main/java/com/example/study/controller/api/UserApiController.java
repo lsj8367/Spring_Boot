@@ -18,15 +18,15 @@ import java.util.Optional;
 @Slf4j // simple logging
 @RestController
 @RequestMapping("/api/user")
-public class UserApiController extends CrudController<UserApiRequest, UserApiResponse> {
+public class UserApiController extends CrudController<UserApiRequest, UserApiResponse, User> {
 
-    @Autowired
-    private UserApiLogicService userApiLogicService;
-
-    @PostConstruct
-    public void init(){
-        this.baseService = userApiLogicService;
-    }
+//    @Autowired
+//    private UserApiLogicService userApiLogicService;
+//
+//    @PostConstruct
+//    public void init(){
+//        this.baseService = userApiLogicService;
+//    }
 
     /*
     // C
