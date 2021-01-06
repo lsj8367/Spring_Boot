@@ -2,6 +2,7 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.Item;
+import com.example.study.model.enumclass.ItemStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,11 @@ public class ItemRepositoryTest extends StudyApplicationTests {
 //        item.setContent("삼성 노트북");
 
         Item item = new Item();
-        item.setStatus("Unregistered");
+        item.setStatus(ItemStatus.UNREGISTERED);
         item.setName("삼성 노트북");
         item.setTitle("삼성 노트북 A100");
         item.setContent("2020년형 노트북입니다.");
-        item.setPrice(900000);
+        //item.setPrice(900000);
         item.setBrandName("삼성");
         //외래키가 연결되어있지 않으므로 에러가 발생한다. partner_id
         //item.setPartnerId(1L); // Long -> Partner

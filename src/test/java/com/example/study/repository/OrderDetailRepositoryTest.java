@@ -2,6 +2,7 @@ package com.example.study.repository;
 
 import com.example.study.StudyApplicationTests;
 import com.example.study.model.entity.OrderDetail;
+import com.example.study.model.enumclass.OrderDetailStatus;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class OrderDetailRepositoryTest extends StudyApplicationTests {
     public void create(){
         OrderDetail orderDetail = new OrderDetail();
 
-        orderDetail.setStatus("Waiting");
+        //orderDetail.setStatus(OrderDetailStatus.WAITING);
         orderDetail.setArrivalDate(LocalDateTime.now().plusDays(2)); //현재일로부터 2일 추가
         orderDetail.setQuantity(1); //수량
         orderDetail.setTotalPrice(BigDecimal.valueOf(900000)); //총가격
