@@ -9,9 +9,11 @@ import com.example.study.repository.ItemRepository;
 import com.example.study.repository.OrderDetailRepository;
 import com.example.study.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -93,4 +95,8 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
         return Header.OK(body);
     }
 
+    @Override
+    public Header<List<OrderDetailApiResponse>> search(Pageable pageable) {
+        return null;
+    }
 }

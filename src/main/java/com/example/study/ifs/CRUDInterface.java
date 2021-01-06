@@ -3,8 +3,11 @@ package com.example.study.ifs;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.UserApiRequest;
 import com.example.study.model.network.response.UserApiResponse;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 public interface CRUDInterface<Req, Res> { //모든 ApiController 클래스가 잘 상속받을수 있게 제네릭 타입 설정.
 
@@ -15,5 +18,7 @@ public interface CRUDInterface<Req, Res> { //모든 ApiController 클래스가 �
     Header<Res> update(Header<Req> request);
 
     Header delete(Long id);
+
+    Header<List<Res>> search(Pageable pageable);
 
 }
