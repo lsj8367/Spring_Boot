@@ -1,5 +1,6 @@
 package com.example.study.model.network.request;
 
+import com.example.study.model.enumclass.AdminStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +19,7 @@ public class AdminUserApiRequest {
 
     private String password;
 
-    private String status;
+    private AdminStatus status;
 
     private String role;
 
