@@ -1,5 +1,7 @@
 package com.example.study.model.entity;
 
+import com.example.study.model.enumclass.OrderPaymentType;
+import com.example.study.model.enumclass.OrderStatus;
 import com.example.study.model.enumclass.OrderType;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -28,7 +30,8 @@ public class OrderGroup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
     @Enumerated(EnumType.STRING)
     private OrderType orderType; //주문의 형태 일괄 / 개별
@@ -37,7 +40,8 @@ public class OrderGroup {
 
     private String revName;
 
-    private String paymentType; //계산방법 카드,현금
+    @Enumerated(EnumType.STRING)
+    private OrderPaymentType paymentType; //계산방법 카드,현금
 
     private BigDecimal totalPrice;
 
