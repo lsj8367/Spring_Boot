@@ -2,17 +2,22 @@ package com.example.study.service;
 
 import com.example.study.ifs.CRUDInterface;
 import com.example.study.model.entity.Category;
+import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.CategoryApiRequest;
 import com.example.study.model.network.response.CategoryApiResponse;
+import com.example.study.model.network.response.ItemApiResponse;
 import com.example.study.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryApiLogicService extends BaseService<CategoryApiRequest, CategoryApiResponse, Category> {
@@ -31,9 +36,7 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
                 .build();
 
         Category newCategory = baseRepository.save(category);
-
-
-        return response(newCategory);
+        return Header.OK(response(newCategory));
     }
 
     @Override
@@ -41,6 +44,7 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
 
         return baseRepository.findById(id)
                 .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -55,7 +59,8 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
                             return category;
                 })
                 .map(newCategory -> baseRepository.save(newCategory))
-                .map(c -> response(c))
+                .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -71,17 +76,31 @@ public class CategoryApiLogicService extends BaseService<CategoryApiRequest, Cat
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    private Header<CategoryApiResponse> response(Category category){
+    private CategoryApiResponse response(Category category){
         CategoryApiResponse body = CategoryApiResponse.builder()
                 .id(category.getId())
                 .type(category.getType())
                 .title(category.getTitle())
                 .build();
-        return Header.OK(body);
+        return body;
     }
 
     @Override
     public Header<List<CategoryApiResponse>> search(Pageable pageable) {
-        return null;
+
+        Page<Category> categories = baseRepository.findAll(pageable);
+
+        List<CategoryApiResponse> categoryApiResponses = categories.stream()
+                .map(this::response)
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(categories.getTotalPages())
+                .totalElements(categories.getTotalElements())
+                .currentPage(categories.getNumber())
+                .currentElements(categories.getNumberOfElements())
+                .build();
+
+        return Header.OK(categoryApiResponses, pagination);
     }
 }

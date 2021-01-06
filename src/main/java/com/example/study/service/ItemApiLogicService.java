@@ -3,11 +3,13 @@ package com.example.study.service;
 import com.example.study.ifs.CRUDInterface;
 import com.example.study.model.entity.Item;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.ItemApiRequest;
 import com.example.study.model.network.response.ItemApiResponse;
 import com.example.study.repository.ItemRepository;
 import com.example.study.repository.PartnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResponse, Item> {
@@ -41,14 +44,15 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
         Item newItem = baseRepository.save(item);
-        return response(newItem);
+        return Header.OK(response(newItem));
     }
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
 
         return baseRepository.findById(id)
-                .map(item -> response(item))
+                .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -71,7 +75,8 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
                             return entityItem;
                 })
                 .map(newEntityItem -> baseRepository.save(newEntityItem))
-                .map(item -> response(item))
+                .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -86,7 +91,7 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
         }).orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    private Header<ItemApiResponse> response(Item item){
+    private ItemApiResponse response(Item item){
         ItemApiResponse body = ItemApiResponse.builder()
                 .id(item.getId())
                 .status(item.getStatus())
@@ -99,11 +104,25 @@ public class ItemApiLogicService extends BaseService<ItemApiRequest, ItemApiResp
                 .unregisteredAt(item.getUnregisteredAt())
                 .partnerId(item.getPartner().getId())
                 .build();
-        return Header.OK(body);
+        return body;
     }
 
     @Override
     public Header<List<ItemApiResponse>> search(Pageable pageable) {
-        return null;
+
+        Page<Item> items = baseRepository.findAll(pageable);
+
+        List<ItemApiResponse> itemApiResponses = items.stream()
+                .map(this::response)
+                .collect(Collectors.toList());
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(items.getTotalPages())
+                .totalElements(items.getTotalElements())
+                .currentPage(items.getNumber())
+                .currentElements(items.getNumberOfElements())
+                .build();
+
+        return Header.OK(itemApiResponses, pagination);
     }
 }
