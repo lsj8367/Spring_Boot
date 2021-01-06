@@ -3,18 +3,21 @@ package com.example.study.service;
 import com.example.study.ifs.CRUDInterface;
 import com.example.study.model.entity.OrderDetail;
 import com.example.study.model.network.Header;
+import com.example.study.model.network.Pagination;
 import com.example.study.model.network.request.OrderDetailApiRequest;
 import com.example.study.model.network.response.OrderDetailApiResponse;
 import com.example.study.repository.ItemRepository;
 import com.example.study.repository.OrderDetailRepository;
 import com.example.study.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderDetailApiLogicService extends BaseService<OrderDetailApiRequest, OrderDetailApiResponse, OrderDetail> {
@@ -40,13 +43,14 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
                 .build();
         OrderDetail newOrderDetail = baseRepository.save(orderDetail);
 
-        return response(newOrderDetail);
+        return Header.OK(response(newOrderDetail));
     }
 
     @Override
     public Header<OrderDetailApiResponse> read(Long id) {
         return baseRepository.findById(id)
                 .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -67,6 +71,7 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
                 })
                 .map(o -> baseRepository.save(o))
                 .map(this::response)
+                .map(Header::OK)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
@@ -81,7 +86,7 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
-    private Header<OrderDetailApiResponse> response(OrderDetail orderDetail){
+    private OrderDetailApiResponse response(OrderDetail orderDetail){
         OrderDetailApiResponse body = OrderDetailApiResponse.builder()
                 .id(orderDetail.getId())
                 .status(orderDetail.getStatus())
@@ -92,11 +97,24 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
                 .orderGroupId(orderDetail.getOrderGroup().getId())
                 .build();
 
-        return Header.OK(body);
+        return body;
     }
 
     @Override
     public Header<List<OrderDetailApiResponse>> search(Pageable pageable) {
-        return null;
+
+        Page<OrderDetail> orderDetails = baseRepository.findAll(pageable);
+
+        List<OrderDetailApiResponse> orderDetailApiResponses = orderDetails.stream()
+                .map(this::response) //반환값을 response에 넣음
+                .collect(Collectors.toList()); //List형식으로 변환
+
+        Pagination pagination = Pagination.builder()
+                .totalPages(orderDetails.getTotalPages())
+                .totalElements(orderDetails.getTotalElements())
+                .currentPage(orderDetails.getNumber())
+                .currentElements(orderDetails.getNumberOfElements())
+                .build();
+        return Header.OK(orderDetailApiResponses, pagination);
     }
 }
